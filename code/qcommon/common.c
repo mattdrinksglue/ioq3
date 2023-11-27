@@ -1968,8 +1968,8 @@ void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int p
 
 		if ( ev->evType == SE_MOUSE )
 		{
-			ev->evValue += value;
-			ev->evValue2 += value2;
+			ev->evValue = value;
+			ev->evValue2 = value2;
 			return;
 		}
 	}

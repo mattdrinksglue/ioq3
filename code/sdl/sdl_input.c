@@ -352,7 +352,9 @@ static void IN_ActivateMouse( qboolean isFullscreen )
 
 	if( !mouseActive )
 	{
+#if 0
 		SDL_SetRelativeMouseMode( SDL_TRUE );
+#endif
 		SDL_SetWindowGrab( SDL_window, SDL_TRUE );
 
 		IN_GobbleMotionEvents( );
@@ -367,7 +369,9 @@ static void IN_ActivateMouse( qboolean isFullscreen )
 				SDL_SetRelativeMouseMode( SDL_FALSE );
 				SDL_SetWindowGrab( SDL_window, SDL_FALSE );
 			} else {
-				SDL_SetRelativeMouseMode( SDL_TRUE );
+#if 0
+			        SDL_SetRelativeMouseMode( SDL_TRUE );
+#endif
 				SDL_SetWindowGrab( SDL_window, SDL_TRUE );
 			}
 
@@ -1080,9 +1084,19 @@ static void IN_ProcessEvents( void )
 			case SDL_MOUSEMOTION:
 				if( mouseActive )
 				{
+#if 0
 					if( !e.motion.xrel && !e.motion.yrel )
 						break;
 					Com_QueueEvent( in_eventTime, SE_MOUSE, e.motion.xrel, e.motion.yrel, 0, NULL );
+#else
+					int w, h;
+					// TODO: SLOW?
+					SDL_GetWindowSize(SDL_window, &w, &h);
+					float y = (float)e.motion.y / h;
+					float x = (float)e.motion.x / w;
+					Com_QueueEvent( in_eventTime, SE_MOUSE, *(int*)(&x), *(int*)(&y), 0, NULL );
+#endif
+
 				}
 				break;
 

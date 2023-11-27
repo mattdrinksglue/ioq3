@@ -5259,6 +5259,7 @@ void _UI_MouseEvent( int dx, int dy )
 	bias = uiInfo.uiDC.bias / uiInfo.uiDC.xscale;
 
 	// update mouse screen position
+#if 0
 	uiInfo.uiDC.cursorx += dx;
 	if (uiInfo.uiDC.cursorx < -bias)
 		uiInfo.uiDC.cursorx = -bias;
@@ -5270,7 +5271,10 @@ void _UI_MouseEvent( int dx, int dy )
 		uiInfo.uiDC.cursory = 0;
 	else if (uiInfo.uiDC.cursory > SCREEN_HEIGHT)
 		uiInfo.uiDC.cursory = SCREEN_HEIGHT;
-
+#else
+	uiInfo.uiDC.cursorx = *(float *)&dx * SCREEN_WIDTH;
+	uiInfo.uiDC.cursory = *(float *)&dy * SCREEN_HEIGHT;
+#endif
   if (Menu_Count() > 0) {
     //menuDef_t *menu = Menu_GetFocused();
     //Menu_HandleMouseMove(menu, uiInfo.uiDC.cursorx, uiInfo.uiDC.cursory);
